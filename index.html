@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黄奇彬 - 金融分析师与项目经理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+            color: #1d1d1f;
+            background-color: #ffffff;
+        }
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            transition: background-color 0.3s ease;
+        }
+        .navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+        }
+        .hero {
+            background: #f5f5f7;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 56px;
+        }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .hero p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+            color: #86868b;
+        }
+        .btn-primary {
+            background-color: transparent;
+            border-color: transparent;
+            color: #0071e3;
+        }
+        .btn-primary:hover {
+            background-color: transparent;
+            border-color: transparent;
+            color: #0056b3;
+        }
+        section {
+            padding: 80px 0;
+            background-color: #ffffff;
+        }
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .skill-item {
+            background-color: #f5f5f7;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .skill-item:hover {
+            background-color: #e8e8ed;
+        }
+        .skill-item:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 2; }
+        .skill-item:nth-child(2) { grid-column: 3 / 4; grid-row: 1 / 2; }
+        .skill-item:nth-child(3) { grid-column: 2 / 3; grid-row: 2 / 3; }
+        .skill-item:nth-child(4) { grid-column: 1 / 2; grid-row: 3 / 4; }
+        .skill-item:nth-child(5) { grid-column: 3 / 4; grid-row: 3 / 4; }
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+            list-style: none;
+        }
+        .timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background-color: #d2d2d7;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-date {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 10px;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .timeline-content {
+            padding: 20px;
+            background-color: #f5f5f7;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 40px;
+        }
+        .timeline-content:hover {
+            background-color: #e8e8ed;
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 50%;
+        }
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 50%;
+        }
+        .timeline-details {
+            display: none;
+            margin-top: 20px;
+        }
+        .chinese-text {
+            font-weight: bold;
+        }
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            background-color: #0071e3;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .chat-header {
+            background: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-body {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .chat-input {
+            border-top: 1px solid #ddd;
+            padding: 10px;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        .user-message {
+            background-color: #e9ecef;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .ai-message {
+            background-color: #f8f9fa;
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">黄奇彬 Huang Qibin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">简介 Intro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">赋能 Value</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">经历 Past</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">微信 Email</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="chinese-text">黄奇彬<br>Huang Qibin</h1>
+            <p class="text-uppercase">金融分析师与项目经理<br>Financial Analyst and Project Manager</p>
+            <p class="text-uppercase">留洋新加坡，地产转金融，目前从事金融银行业，创造人生更多可能性<br>Studied in Singapore, transitioned from real estate to finance, currently working in the banking industry, creating more possibilities in life</p>
+            <a href="#about" class="btn btn-primary btn-lg">更多 More</a>
+        </div>
+    </header>
+
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="section-title chinese-text">简介 Intro</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="chinese-text">黄奇彬 Huang Qibin，一个充满活力且专注的金融和项目管理专业人士。</p>
+                    <p>Huang Qibin, a dynamic and focused finance and project management professional.</p>
+                    <p class="chinese-text">Qibin在UOB从事环球市场分析与风险管理工作，擅长处理复杂的金融产品和市场动态，同时为客户提供精准的财务分析和投资策略。</p>
+                    <p>Qibin works at UOB in global market analysis and risk management, specializing in handling complex financial products and market dynamics, while providing precise financial analysis and investment advice to clients.</p>
+                    <p class="chinese-text">Qibin拥有新加坡国立大学的项目管理硕士学位，并且成功申请了澳大利亚、香港、英国和美国的硕士项目，展现了在学术和职业上的全球视野。</p>
+                    <p>Qibin holds a Master's Degree in Project Management from the National University of Singapore and successfully received offers from Australia, Hong Kong, the UK, and the US for master's programs, showcasing a global perspective in both academics and career.</p>
+                    <p class="chinese-text">Qibin追求卓越，不仅精通项目管理，还擅长品牌推广和市场营销，曾多次参与创新项目。</p>
+                    <p>Qibin strives for excellence, being proficient in project management and skilled in brand promotion and marketing, having participated in multiple innovative projects.</p>
+                    <p class="chinese-text">此外，Qibin性格外向，擅长与团队和客户合作，注重高效沟通与结果导向。无论是在职业发展还是个人生活中，始终以积极的心态面对挑战，力求突破自我。</p>
+                    <p>Moreover, Qibin is outgoing, excels in team and client collaboration, focuses on effective communication and results. Whether in professional development or personal life, Qibin always faces challenges with a positive mindset, striving for self-improvement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title chinese-text">赋能 Value</h2>
+            <div class="skill-grid">
+                <div class="skill-item" data-skill="project">
+                    <h3 class="chinese-text">项目管理</h3>
+                    <p>Project Management</p>
+                </div>
+                <div class="skill-item" data-skill="risk">
+                    <h3 class="chinese-text">风险管理</h3>
+                    <p>Risk Management</p>
+                </div>
+                <div class="skill-item" data-skill="financial">
+                    <h3 class="chinese-text">金融咨询</h3>
+                    <p>Financial Consulting</p>
+                </div>
+                <div class="skill-item" data-skill="brand">
+                    <h3 class="chinese-text">品牌管理</h3>
+                    <p>Brand Management</p>
+                </div>
+                <div class="skill-item" data-skill="study">
+                    <h3 class="chinese-text">留学服务</h3>
+                    <p>Study Abroad Services</p>
+                </div>
+            </div>
+            <div id="skillDetails" class="skill-details">
+                <h4 id="skillTitle" class="chinese-text"></h4>
+                <p id="skillContent"></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-5">
+        <div class="container">
+            <h2 class="section-title chinese-text">经历 Past</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2022年3月 - 至今</div>
+                    <div class="timeline-content" onclick="toggleDetails(this)">
+                        <h4 class="chinese-text">Now_Model时尚公司（新加坡）</h4>
+                        <h4>Now_Model Fashion Company (Singapore)</h4>
+                        <div class="timeline-details">
+                            <p class="chinese-text">与本地和国际品牌合作，创建广告活动和时尚展览。</p>
+                            <p>Collaborate with local and international brands to create advertising campaigns and fashion exhibitions.</p>
+                            <ul class="chinese-text">
+                                <li>参与广告活动开发</li>
+                                <li>在各种活动中代表品牌</li>
+                                <li>参与2023年新加坡设计师时装展</li>
+                            </ul>
+                            <ul>
+                                <li>Involved in advertising campaign development</li>
+                                <li>Represented brands at various events</li>
+                                <li>Participated in the Singapore 2023 Designer Fashion Exhibition</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2022年6月</div>
+                    <div class="timeline-content" onclick="toggleDetails(this)">
+                        <h4 class="chinese-text">NUS GRIP 研究生创新项目</h4>
+                        <h4>NUS GRIP Graduate Research Innovation Program</h4>
+                        <div class="timeline-details">
+                            <p class="chinese-text">参与开发SLAM领域的高质量视觉传感器产品，并通过数字渠道进行营销。</p>
+                            <p>Participated in developing high-quality visual sensor products for the SLAM field and marketing through digital channels.</p>
+                            <ul class="chinese-text">
+                                <li>参与早期产品规划和开发</li>
+                                <li>制定数字营销策略</li>
+                                <li>成功推出两代视觉传感器产品</li>
+                            </ul>
+                            <ul>
+                                <li>Involved in early product planning and development</li>
+                                <li>Formulated digital marketing strategies</li>
+                                <li>Successfully launched two generations of visual sensor products</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2023年1月</div>
+                    <div class="timeline-content" onclick="toggleDetails(this)">
+                        <h4 class="chinese-text">新加坡留学项目（教育顾问和项目组织者）</h4>
+                        <h4>Singapore Study Abroad Program (Education Consultant & Program Organizer)</h4>
+                        <div class="timeline-details">
+                            <p class="chinese-text">组织学生参观新加坡顶尖大学和领先企业，增进国际视野和实践技能。</p>
+                            <p>Organized visits for students to top universities and leading companies in Singapore, enhancing international perspective and practical skills.</p>
+                            <ul class="chinese-text">
+                                <li>安排教育参观和实践课程</li>
+                                <li>共同主持关于新加坡留学的播客</li>
+                                <li>通过社交媒体和网站推广项目</li>
+                            </ul>
+                            <ul>
+                                <li>Arranged educational tours and practical sessions</li>
+                                <li>Co-hosted a podcast on studying abroad in Singapore</li>
+                                <li>Promoted the program via social media and the program's website</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2023年6月</div>
+                    <div class="timeline-content" onclick="toggleDetails(this)">
+                        <h4 class="chinese-text">UOB志愿者活动</h4>
+                        <h4>Volunteer Activities with UOB</h4>
+                        <div class="timeline-details">
+                            <p class="chinese-text">参与支持弱势群体、促进儿童艺术教育和环境保护的活动。</p>
+                            <p>Participated in activities supporting vulnerable communities, promoting arts education for children, and environmental conservation.</p>
+                            <ul class="chinese-text">
+                                <li>参与"Food from the Heart"活动，为有需要的家庭捐赠食物</li>
+                                <li>组织儿童艺术活动</li>
+                                <li>组织募捐跑步活动，为环保项目筹款</li>
+                            </ul>
+                            <ul>
+                                <li>Participated in "Food from the Heart" campaign, donating food to families in need</li>
+                                <li>Organized art activities for children</li>
+                                <li>Organized donation-based running events to raise funds for environmental projects</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">持续进行</div>
+                    <div class="timeline-content" onclick="toggleDetails(this)">
+                        <h4 class="chinese-text">个人媒体运营项目</h4>
+                        <h4>Personal Media Operations Project</h4>
+                        <div class="timeline-details">
+                            <p class="chinese-text">通过多平台分享个人和职业经历，建立个人品牌。内容涵盖时尚模特、留学项目管理、科技创业和社区服务等领域。</p>
+                            <p>Establish personal brand by sharing personal and professional experiences across multiple platforms. Content covers areas such as fashion modeling, study abroad program management, tech startups, and community service.</p>
+                            <ul class="chinese-text">
+                                <li>管理内容创作、营销和多媒体渠道互动</li>
+                                <li>在小红书等平台实施社交媒体策略</li>
+                                <li>创建并管理播客系列，讨论时尚和教育话题</li>
+                            </ul>
+                            <ul>
+                                <li>Manage content creation, marketing, and multimedia channel interactions</li>
+                                <li>Implement social media strategies on platforms like Xiaohongshu</li>
+                                <li>Create and manage podcast series discussing fashion and education topics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title chinese-text">微信 Email</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <p><i class="fab fa-weixin fa-2x me-2"></i> WeChat: Binny0104</p>
+                    <p><i class="fas fa-envelope fa-2x me-2"></i> Email: qibin@u.nus.edu</p>
+                    <p><i class="fas fa-book fa-2x me-2"></i> Xiaohongshu: @宾尼binny</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="chat-icon" onclick="toggleChat()">
+        <i class="fas fa-comments fa-2x"></i>
+    </div>
+
+    <div class="chat-window">
+        <div class="chat-header">
+            <h5>AI助手</h5>
+            <button type="button" class="btn-close" onclick="toggleChat()"></button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <!-- 消息将在这里动态添加 -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" class="form-control" placeholder="输入您的问题...">
+            <button class="btn btn-primary mt-2" onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                document.querySelector('.navbar').classList.add('scrolled');
+            } else {
+                document.querySelector('.navbar').classList.remove('scrolled');
+            }
+        });
+
+        function toggleDetails(element) {
+            const details = element.querySelector('.timeline-details');
+            if (details.style.display === 'none' || details.style.display === '') {
+                details.style.display = 'block';
+            } else {
+                details.style.display = 'none';
+            }
+        }
+
+        function toggleChat() {
+            const chatWindow = document.querySelector('.chat-window');
+            chatWindow.style.display = chatWindow.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage('user', message);
+                userInput.value = '';
+
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message: message }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    addMessage('ai', data.reply);
+                } catch (error) {
+                    console.error('Error:', error);
+                    addMessage('ai', '抱歉，我遇到了一些问题。请稍后再试。');
+                }
+            }
+        }
+
+        function addMessage(sender, text) {
+            const chatBody = document.getElementById('chatBody');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'ai-message');
+            messageDiv.textContent = text;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        addMessage('ai', '您好！我是AI助手。有什么可以帮助您的吗？');
+
+        const skillDescriptions = {
+            financial: {
+                title: "金融咨询 Financial Consulting",
+                content: "基于Qibin在UOB银行环球市场分析的经历，Qibin对金融产品（如外汇、固定收益、商品、衍生品等）的深刻理解，能够为客户提供有深度的市场分析和投资建议。Qibin可以帮助客户制定个性化的投资策略，优化资产配置，最大化回报，并确保投资的风险可控。\n\nBased on Qibin's experience in global market analysis at UOB Bank, Qibin has a deep understanding of financial products (such as foreign exchange, fixed income, commodities, derivatives, etc.) and can provide clients with in-depth market analysis and investment advice. Qibin can help clients develop personalized investment strategies, optimize asset allocation, maximize returns, and ensure controllable investment risks."
+            },
+            project: {
+                title: "项目管理 Project Management",
+                content: "Qibin在NUS的项目管理硕士课程中学到的知识，使Qibin掌握了先进的项目管理工具和方法。Qibin能够为企业提供全面的项目规划和执行服务，确保项目按时、按预算完成，达到或超越预期目标。\n\nThe knowledge Qibin gained from the Project Management Master's program at NUS has equipped Qibin with advanced project management tools and methods. Qibin can provide comprehensive project planning and execution services for enterprises, ensuring projects are completed on time, within budget, and meet or exceed expected goals."
+            },
+            risk: {
+                title: "风险管理 Risk Management",
+                content: "Qibin在UOB负责风险管理的工作，使Qibin能够识别和评估各种市场和操作风险。Qibin能够帮助客户及早识别潜在风险，并制定针对性的预防措施和应急计划，从而减少风险对业务的影响。\n\nQibin's work in risk management at UOB enables Qibin to identify and assess various market and operational risks. Qibin can help clients identify potential risks early and develop targeted preventive measures and contingency plans, thereby reducing the impact of risks on business."
+            },
+            brand: {
+                title: "品牌管理 Brand Management",
+                content: "Qibin在数字营销和品牌推广方面的经验，特别是通过参与NUS GRIP创新项目以及在时尚行业的品牌合作，积累了丰富的营销实践。Qibin可以帮助企业通过多渠道的品牌推广策略，提高品牌曝光度和市场渗透率。\n\nQibin's experience in digital marketing and brand promotion, especially through participation in the NUS GRIP innovation project and brand collaborations in the fashion industry, has accumulated rich marketing practices. Qibin can help enterprises increase brand exposure and market penetration through multi-channel brand promotion strategies."
+            },
+            study: {
+                title: "留学服务 Study Abroad Services",
+                content: "基于Qibin在多个国家和地区的申请经验，Qibin可以为学生提供关于不同地区院校的全面对比和专业建议，帮助他们在地理位置、学术声誉、就业前景等多个因素中做出明智的选择。\n\nBased on Qibin's application experience in multiple countries and regions, Qibin can provide students with comprehensive comparisons and professional advice on institutions in different regions, helping them make informed choices considering factors such as geographical location, academic reputation, and employment prospects."
+            }
+        };
+
+        document.querySelectorAll('.skill-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const skill = this.getAttribute('data-skill');
+                const description = skillDescriptions[skill];
+                const detailsElement = document.getElementById('skillDetails');
+                document.getElementById('skillTitle').textContent = description.title;
+                document.getElementById('skillContent').textContent = description.content;
+                detailsElement.style.display = 'block';
+                detailsElement.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
